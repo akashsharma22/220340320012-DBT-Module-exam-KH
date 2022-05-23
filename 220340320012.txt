@@ -1,0 +1,93 @@
+DBT module end
+Akash Sharma Roll no-220340320012
+
+-- section 1
+-- Q3 
+select ename,sal from emp 
+where sal between 2499 and 5001;
+
+-- Q4
+select ename from emp 
+order by ename desc; 
+
+-- Q5
+select lower(job) from emp;
+
+-- Q6
+select ename, length(ename) from emp;
+
+-- Q7
+select deptno,count(ename) from emp
+group by deptno;
+
+-- Q8
+select dept.dname,emp.ename from emp,dept
+where dept.deptno = emp.deptno;
+
+-- Q9
+select instr(ename,'AR') from emp;
+
+-- Q10
+select ename,sal,sal*0.2 as HRA from emp;
+
+-- Section 2
+
+-- Q1
+create table tempp
+(str1 varchar(20),
+str2 varchar(20),
+result varchar(20));
+
+delimiter //
+create procedure proc1()
+begin
+	declare str1 varchar(20) default 'CDAC KHARGHAR';
+	declare str2 varchar(20) default 'CDAC';
+    
+    if (instr(str1,str2)>0 or instr(str2,str1)>0)
+    then 
+		insert into tempp values(str1,str2,'EXISTS'); 
+        else
+		insert into tempp values(str1,str2,'NOT EXISTS'); 
+        
+        end if;
+	end; //
+    delimiter ;
+    
+    call proc1();
+    select * from tempp;
+drop table tempp;
+
+-- Q2
+
+create table triangle
+(a int,b int,c int,result varchar(30));
+
+delimiter //
+create function FUNC1(a int, b int, c int)
+returns boolean
+deterministic
+begin
+	if a+b>c and b+c>a and a+c>b then
+    return true;
+    else
+    return false;
+  end if;
+  end; //
+  delimiter ;
+  
+  delimiter //
+  create procedure dac(a int,b int,c int)
+  begin 
+  declare z boolean;
+  
+  set z = FUNC1(a,b,c);
+  if z then 
+	insert into triangle values(a,b,c,'VALID TRAINGLE');
+    else
+    insert into triangle values(a,b,c,'NOT VALID TRAINGLE');
+    end if;
+    end; //
+    delimiter ;
+	call dac(5,10,20);
+    select * from triangle;
